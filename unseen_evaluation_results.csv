@@ -1,0 +1,7 @@
+inquiry_id,expected_service,top1_prediction,top3_predictions,top1_correct,top3_hit,inquiry_text
+NEW01,S01,S01,S01;S02;S03,True,True,"Our employees need a digital assistant that collects information from internal tools, prepares task briefs, and suggests what to do next."
+NEW02,S02,S01,S01;S02;S03,False,True,"We receive scanned agreements and need important dates, obligations, and summaries extracted for staff verification."
+NEW03,S04,S04,S04;S06;S09,True,True,Connect an AI capability to our existing CRM application through APIs without replacing the current software.
+NEW04,S10,S10,S10;S09;S11,True,True,Our paid search campaigns need better lead quality and lower advertising costs using Google Ads performance data.
+NEW05,S12,S12,S12;S01;S02,True,True,Many visitors open our pricing page but leave before signing up. We want to test page layouts and simplify the registration journey.
+NEW06,S06,S06,S06;S04;S09,True,True,Build reliable backend endpoints so our customer records can be exchanged securely between the application and internal dashboard.

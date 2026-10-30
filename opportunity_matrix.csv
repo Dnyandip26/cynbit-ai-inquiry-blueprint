@@ -1,0 +1,7 @@
+opportunity,business_area,potential_value,implementation_complexity,fit_with_public_capabilities,assessment_note
+AI Inquiry-to-Blueprint Assistant,Sales / discovery workflow,High potential; reduces repetitive requirement structuring and helps prepare consistent first drafts,Medium,High,Selected for PoC; verify with Cynbit stakeholders
+Document Extraction & Knowledge Assistant,Internal operations / client solutions,Could extract and summarize information from business documents with human review,Medium,High,Potential future module; overlaps with public LLM/document automation offering
+CRM Lead Routing & Follow-up Agent,Sales operations,"Could standardize lead capture, ownership, reminders and follow-up summaries",Medium,Medium-High,Needs CRM workflow access and historical data
+AI Voice Intake Assistant,Customer experience,Could collect initial requirements through voice and create structured call summaries,High,Medium,"Needs speech stack, consent design and robust fallback"
+Cloud Operations Incident Assistant,Engineering operations,Could summarize alerts/logs and suggest safe diagnostic steps with approval gates,High,Medium-High,Requires secure log access and strict human approval
+Review Sentiment & Response Intelligence,Customer experience / SaaS,Could classify feedback and draft responses; public product ecosystem already includes Revio,Medium,Medium,Less differentiated as a new opportunity

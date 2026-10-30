@@ -1,0 +1,10 @@
+{
+  "service_catalog_rows": 12,
+  "synthetic_inquiry_rows": 180,
+  "unique_primary_labels": 12,
+  "all_inquiries_marked_synthetic": true,
+  "missing_values_in_inquiry_csv": 0,
+  "train_rows": 126,
+  "validation_rows": 36,
+  "test_rows": 18
+}
