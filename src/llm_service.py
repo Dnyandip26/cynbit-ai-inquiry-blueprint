@@ -96,22 +96,60 @@ class GroqConfigurationError(RuntimeError):
     """Raised when Groq is not configured or returns unusable output."""
 
 
+def _coerce_secret_value(raw_value: Any) -> str | None:
+    """Normalize a secret value while omitting empty or non-string entries."""
+    if raw_value is None:
+        return None
+
+    value = str(raw_value).strip()
+    return value or None
+
+
+def _read_secret_from_streamlit(secret_name: str) -> str | None:
+    """Read a secret from Streamlit Cloud while avoiding any secret value leakage."""
+    try:
+        import streamlit as st  # type: ignore
+    except Exception:
+        return None
+
+    secrets = getattr(st, "secrets", None)
+    if not hasattr(secrets, "get"):
+        return None
+
+    candidates: list[Any] = [secrets]
+    groq_section = secrets.get("groq") if isinstance(secrets, dict) else None
+    if isinstance(groq_section, dict):
+        candidates.append(groq_section)
+
+    for container in candidates:
+        if not isinstance(container, dict):
+            continue
+
+        for key in (secret_name, secret_name.lower(), secret_name.upper()):
+            if key in container:
+                value = _coerce_secret_value(container[key])
+                if value:
+                    return value
+
+    return None
+
+
 def get_groq_settings() -> tuple[str, str]:
-    """Load configuration explicitly from the project-root .env file."""
+    """Load Groq credentials from the local .env file or Streamlit Cloud secrets."""
+    if ENV_FILE.exists():
+        load_dotenv(dotenv_path=ENV_FILE, override=False)
 
-    if not ENV_FILE.exists():
-        raise GroqConfigurationError(
-            f"Project .env file was not found: {ENV_FILE}"
-        )
+    api_key = _coerce_secret_value(os.getenv("GROQ_API_KEY"))
+    if not api_key:
+        api_key = _read_secret_from_streamlit("GROQ_API_KEY")
 
-    load_dotenv(dotenv_path=ENV_FILE, override=True)
-
-    api_key = os.getenv("GROQ_API_KEY", "").strip()
-    model = os.getenv("GROQ_MODEL", "").strip() or DEFAULT_MODEL
+    model = _coerce_secret_value(os.getenv("GROQ_MODEL"))
+    if not model:
+        model = _read_secret_from_streamlit("GROQ_MODEL") or DEFAULT_MODEL
 
     if not api_key:
         raise GroqConfigurationError(
-            "GROQ_API_KEY is missing from the project-root .env file."
+            "Missing GROQ_API_KEY. Add it to your local .env file or to Streamlit Community Cloud secrets."
         )
 
     return api_key, model
